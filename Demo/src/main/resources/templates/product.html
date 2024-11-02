@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Form</title>
+     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .form-container {
+            background-color: #fff;
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #5e057e;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5e057e;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #5e057e;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #299d00;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="form-container">
+        <h2 th:if="${product.id == null}">Add Product</h2>
+        <h2 th:if="${product.id != null}">Edit Product</h2>
+
+        <form th:action="@{${product.id == null} ? '/products/save' : '/products/update/' + ${product.id}}" 
+              th:object="${product}" method="post">
+            <input type="hidden" th:field="*{id}">
+
+            <label for="name">Product Name:</label>
+            <input th:field="*{name}" type="text" id="name" name="name" placeholder="Enter product name" required>
+
+            <label for="description">Description:</label>
+            <input th:field="*{description}" type="text" id="description" name="description" placeholder="Enter product description" required>
+
+            <label for="price">Price:</label>
+            <input th:field="*{price}" type="number" id="price" name="price" placeholder="Enter product price" required>
+
+            <button type="submit" th:text="${product.id == null} ? 'Save' : 'Update'"></button>
+        </form>
+
+        <a href="/products">Back to Product List</a>
+    </div>
+</body>
+</html>
